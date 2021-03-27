@@ -7,6 +7,7 @@ namespace PlayScene.Common.Weapons
     {
         [SerializeField] private Vector3 _shotDirection = Vector3.right;
         [SerializeField] private float _distanceBetweenBullets = 0.4f;
+
         public override void Shoot()
         {
             for (var i = 0; i < _bulletsPerShot; i++)
@@ -19,7 +20,7 @@ namespace PlayScene.Common.Weapons
             
                 if (_renderer != null)
                 {
-                    bullet.Renderer.material = _renderer.material;
+                    bullet.Renderer.sharedMaterial = _renderer.sharedMaterial;
                 }
             }
         }

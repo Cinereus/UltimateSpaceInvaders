@@ -12,7 +12,7 @@ namespace PlayScene.Common.AbstractClasses
         [SerializeField] protected GameObject _bullet;
         [SerializeField] protected int _bulletCount = 200;
         [SerializeField] protected int _bulletsPerShot = 3;
-        [SerializeField] protected float _cooldown ;
+        [SerializeField] protected float _cooldown;
 
         protected Pool _bulletsPool;
 
@@ -20,7 +20,7 @@ namespace PlayScene.Common.AbstractClasses
         {
             var bullet = _bullet.GetComponent<Bullet>();
         
-            if (bullet == null)
+            if (!bullet)
             {
                 _bullet = null;
                 Debug.LogWarning("You use game object without Bullet component!");
