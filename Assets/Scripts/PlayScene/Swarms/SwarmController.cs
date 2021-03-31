@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using PlayScene.Invaders;
 using System.Collections.Generic;
-using System.Linq;
 using PlayScene.Common.AbstractClasses;
 using PlayScene.Common.ObjectPool;
 using Random = UnityEngine.Random;
@@ -24,25 +23,27 @@ namespace PlayScene.Swarms
         private float _bottomBorder;
         private Vector3 _targetPosition;
         
-        private GameObject[] _invaderPrefabs;
-        private List<Path> _paths = new List<Path>();
         private List<Pool> _invaderPools = new List<Pool>();
         private List<string> _namesHolder = new List<string>();
         private List<Invader> _invaders = new List<Invader>();
-        private List<Material> _invaderMaterials = new List<Material>();
         private List<FormationGrid[]> _swarmLayers = new List<FormationGrid[]>();
         
         private const int INVADERS_POOL_SIZE = 50;
         private const int SPAWN_DISTANCE = 3;
 
-        public void InitializeSwarm()
+        public void InitializeSwarm(List<Path> paths, GameObject[] invaderPrefabs, List<Material> invaderMaterials)
         {
             foreach (var layer in _swarmLayers)
             {
-                var path = GetUniqueRandomElement(_paths, _namesHolder);
+                foreach (var invader in invaderPrefabs)
+                {
+                    _invaderPools.Add(Pool.CreatePool(invader, INVADERS_POOL_SIZE));
+                }
+                
+                var path = GetUniqueRandomElement(paths, _namesHolder);
                 var invaderPool = GetUniqueRandomElement(_invaderPools, _namesHolder);
-                var invaderMaterial = GetUniqueRandomElement(_invaderMaterials, _namesHolder);
-
+                var invaderMaterial = GetUniqueRandomElement(invaderMaterials, _namesHolder);
+                
                 foreach (var formationGrid in layer)
                 {
                     var formationPoints = formationGrid.Points;
@@ -72,19 +73,11 @@ namespace PlayScene.Swarms
         {
             base.Awake();
             _camera = Camera.main;
-            _paths = FindObjectsOfType<Path>().ToList();
-            _invaderPrefabs = Resources.LoadAll<GameObject>("Prefabs\\Invaders\\InvaderTypes");
-            _invaderMaterials = Resources.LoadAll<Material>("Materials\\Invaders").ToList();
             _topBorder = _camera.ViewportToWorldPoint(new Vector3(0, _topViewportPoint, 0)).y;
             _leftBorder = _camera.ViewportToWorldPoint(new Vector3(1-_leftViewportPoint, 0, 0)).x;
             _rightBorder = _camera.ViewportToWorldPoint(new Vector3(_rightViewportPoint,0, 0)).x;
             _bottomBorder = _camera.ViewportToWorldPoint(new Vector3(0, 1-_bottomViewportPoint, 0)).y;
-            
-            foreach (var invader in _invaderPrefabs)
-            {
-                _invaderPools.Add(Pool.CreatePool(invader, INVADERS_POOL_SIZE));
-            }
-            
+
             for (var i = 0; i < _layersCount; i++)
             {
                 var formation = transform.GetChild(i).GetComponentsInChildren<FormationGrid>();

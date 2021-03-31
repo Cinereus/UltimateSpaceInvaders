@@ -110,6 +110,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 0.02
+  _weapons:
+  - {fileID: 1701472030658049594, guid: e153f5ed9c6e38f43927450b687bcbc5, type: 3}
+  - {fileID: 817186113260560822, guid: a5a8b285c0c08444c8707b21fc569781, type: 3}
+  - {fileID: 8910072816934313290, guid: 568fa6eb07f5f3a47ae3438c065e649b, type: 3}
 --- !u!114 &-1836040145643107941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +136,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7742564161230931515, guid: 91d6ac846bb241645b84c06810f3eec8, type: 3}

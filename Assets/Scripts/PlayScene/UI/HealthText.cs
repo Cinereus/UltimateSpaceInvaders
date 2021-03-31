@@ -9,12 +9,13 @@ namespace PlayScene.UI
     [RequireComponent(typeof(Text))]
     public class HealthText : MonoBehaviour
     {
+        [SerializeField] private PlayerController _player;
+        
         private void Awake()
         {
             var health = GetComponent<Text>();
-            var player = FindObjectOfType<PlayerController>();
-
-            player.OnHealthChanged += healthPoints => { health.text =  "HEALTH: "+healthPoints; };
+            
+            _player.OnHealthChanged += healthPoints => { health.text =  "HEALTH: "+healthPoints; };
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 using PlayScene.Common.AbstractClasses;
-using UnityEngine;
 
 namespace PlayScene.Player
 {
@@ -15,12 +15,7 @@ namespace PlayScene.Player
 
         public void Awake()
         {
-            var weapons = GetComponentsInChildren<BaseWeapon>().ToList();
-
-            foreach (var weapon in weapons)
-            { 
-                _weaponMap.Add(weapon.name, weapon);
-            }
+            _weaponMap = GetComponentsInChildren<BaseWeapon>().ToDictionary(w => w.name);
         }
 
         public void ChangeWeapon(string weaponName)

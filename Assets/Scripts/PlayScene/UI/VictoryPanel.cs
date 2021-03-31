@@ -8,17 +8,8 @@ namespace PlayScene.UI
     public class VictoryPanel : MonoBehaviour
     {
         [SerializeField] private GameObject _panel;
-        [SerializeField] private SwarmGenerator _swarmGenerator;
-    
-        private void Awake()
-        {
-            _swarmGenerator.OnSwarmGenerated += swarm =>
-            {
-                swarm.OnDie += ShowVictoryPanel;
-            };
-        }
 
-        private void ShowVictoryPanel()
+        public void ShowVictoryPanel()
         {
             _panel.SetActive(true);
             Cursor.visible = true;

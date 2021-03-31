@@ -44,6 +44,7 @@ namespace PlayScene.Invaders
         [SerializeField] private int _scores = 2;
         [SerializeField] private float _minShotCooldown = 1f;
         [SerializeField] private float _maxShotCooldown = 6f;
+        [SerializeField] private ScoreText[] _scoreTextList;
         [SerializeField, Range(1, 100)] private int _bonusChance = 5;
         [SerializeField] private GameObject _hitParticles;
         [SerializeField] private GameObject _pickup;
@@ -58,7 +59,6 @@ namespace PlayScene.Invaders
         private Vector3 _formationPoint;
         private StateMachine _stateMachine;
         
-        private ScoreText[] _scoreTexts;
         
         private const int PICKUP_POOL_SIZE = 15;
         private const int PARTICLES_POOL_SIZE = 50;
@@ -92,7 +92,7 @@ namespace PlayScene.Invaders
             particles.Play();
             GetPickup();
             
-            foreach (var scoreText in _scoreTexts)
+            foreach (var scoreText in _scoreTextList)
             {
                 scoreText.GainScore(_scores);
             }
@@ -105,7 +105,6 @@ namespace PlayScene.Invaders
             base.Awake();
             _stateMachine = new StateMachine();
             _renderer = GetComponent<Renderer>();
-            _scoreTexts = FindObjectsOfType<ScoreText>();
             _weapon = GetComponentInChildren<BaseWeapon>();
             _pickupsPool = Pool.CreatePool(_pickup, PICKUP_POOL_SIZE);
             _particlesPool = Pool.CreatePool(_hitParticles, PARTICLES_POOL_SIZE);

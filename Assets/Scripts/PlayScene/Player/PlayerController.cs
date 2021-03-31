@@ -9,26 +9,21 @@ namespace PlayScene.Player
 {
     public class PlayerController : MortalEntity
     {
-        public float ShotTime
-        {
-            get => _shotTime;
-            set => _shotTime = value;
-        }
-        
+        public float ShotTime { get; set; }
         public float MoveSpeed => _moveSpeed;
-        
-        public WeaponSwitcher WeaponSwitcher => _weaponSwitcher;
         public Animator Animator => _animator;
         public StateMachine StateMachine => _stateMachine;
+        public WeaponSwitcher WeaponSwitcher => _weaponSwitcher;
 
         [SerializeField] private float _moveSpeed = 0.4f;
+        [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _hitParticles;
+        [SerializeField] private GameObject _gameOverPanel;
         [SerializeField] private WeaponSwitcher _weaponSwitcher;
-        
+
         private const int PARTICLES_POOL_SIZE = 50;
 
         private float _shotTime;
-        private Animator _animator;
         private Pool _particlesPool;
         private StateMachine _stateMachine;
 
@@ -41,9 +36,9 @@ namespace PlayScene.Player
         {
             base.Awake();
             _stateMachine = new StateMachine();
-            _animator = GetComponentInChildren<Animator>();
             _stateMachine.ChangeState(new MovementState(this));
             _particlesPool = Pool.CreatePool(_hitParticles, PARTICLES_POOL_SIZE);
+            OnDie += () => _gameOverPanel.SetActive(true);
         }
 
         private void Update()

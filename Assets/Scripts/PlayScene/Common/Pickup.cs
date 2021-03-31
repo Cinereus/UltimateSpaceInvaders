@@ -12,11 +12,11 @@ namespace PlayScene.Common
     public class Pickup : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 0.1f;
+        [SerializeField] private List<BaseWeapon> _weapons;
 
         private string _weaponName;
         private Renderer _renderer;
         private PoolObject _poolObject;
-        
         private List<string> _weaponNames = new List<string>();
         private Dictionary<string, Material> _materials = new Dictionary<string, Material>();
 
@@ -31,12 +31,10 @@ namespace PlayScene.Common
         private void Awake()
         {
             _poolObject = GetComponent<PoolObject>();
-            var weaponSwitcher = FindObjectOfType<PlayerController>().WeaponSwitcher;
-            var weapons = weaponSwitcher.GetComponentsInChildren<BaseWeapon>();
             
-            foreach (var weapon in weapons)
+            foreach (var weapon in _weapons)
             {
-                var bullet = weapon.GetComponent<BaseWeapon>().Bullet.GetComponent<Bullet>();
+                var bullet = weapon.Bullet.GetComponent<Bullet>();
                 var material = bullet.GetComponent<Renderer>().sharedMaterial;
                 
                 _materials.Add(weapon.name, material);
